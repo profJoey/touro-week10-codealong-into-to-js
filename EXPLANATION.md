@@ -61,17 +61,11 @@ element.classList.add('highlight'); // Does nothing (already added)
 
 ## The Fix
 
-If you want `add()` to work like `toggle()` for interactive elements, you have two options:
+If you want `add()` to work like `toggle()` for interactive elements, you have three options:
 
 1. **Use `toggle()` instead** (recommended for interactive elements)
-2. **Check if the class exists first**:
-   ```javascript
-   if (!element.classList.contains('highlight')) {
-       element.classList.add('highlight');
-   }
-   ```
 
-3. **Combine add() and remove()**:
+2. **Manually create toggle-like behavior with add() and remove()**:
    ```javascript
    // To create toggle-like behavior manually
    if (element.classList.contains('highlight')) {
@@ -80,6 +74,15 @@ If you want `add()` to work like `toggle()` for interactive elements, you have t
        element.classList.add('highlight');
    }
    ```
+
+3. **Or if you only want to add the class once and prevent duplicate adds**:
+   ```javascript
+   // Only adds if not already present
+   if (!element.classList.contains('highlight')) {
+       element.classList.add('highlight');
+   }
+   ```
+   Note: This doesn't create toggle behavior - it just prevents adding the class multiple times. Use this when you want one-time styling that checks if it's already applied.
 
 ## Summary
 
