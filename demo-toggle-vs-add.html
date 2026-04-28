@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle vs Add Demo</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .demo-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .highlight {
+            background-color: yellow;
+            font-weight: bold;
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        button {
+            padding: 10px 20px;
+            margin: 10px 5px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 2px solid #333;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        
+        button:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .demo-box {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #999;
+            background-color: #f9f9f9;
+            min-height: 50px;
+        }
+        
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Understanding toggle() vs add()</h1>
+    
+    <div class="demo-section">
+        <h2>Demo 1: Using toggle() - Interactive</h2>
+        <p>Click the button multiple times to see the highlight appear and disappear:</p>
+        <button id="toggle-btn">Click to Toggle Highlight</button>
+        <div class="demo-box" id="toggle-box">
+            This box will toggle the highlight class on and off
+        </div>
+        <div class="status" id="toggle-status">Click count: 0 | Class present: false</div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>Demo 2: Using add() - One-Time Action</h2>
+        <p>Click the button multiple times. Notice it only highlights once:</p>
+        <button id="add-btn">Click to Add Highlight</button>
+        <div class="demo-box" id="add-box">
+            This box will add the highlight class (but only once)
+        </div>
+        <div class="status" id="add-status">Click count: 0 | Class present: false</div>
+        <button id="remove-btn">Remove Highlight</button>
+    </div>
+    
+    <div class="demo-section">
+        <h2>Demo 3: Why add() Seems to "Not Work"</h2>
+        <p>If you repeatedly call add() on the same element, nothing visible happens after the first click:</p>
+        <button id="repeated-add-btn">Click Multiple Times</button>
+        <div class="demo-box" id="repeated-box">
+            Clicking repeatedly won't change anything after the first click
+        </div>
+        <div class="status" id="repeated-status">
+            Click count: 0 | Class present: false | Message: Not clicked yet
+        </div>
+    </div>
+
+    <script>
+        // Demo 1: Toggle
+        let toggleCount = 0;
+        const toggleBtn = document.getElementById('toggle-btn');
+        const toggleBox = document.getElementById('toggle-box');
+        const toggleStatus = document.getElementById('toggle-status');
+        
+        toggleBtn.addEventListener('click', () => {
+            toggleCount++;
+            toggleBox.classList.toggle('highlight');
+            const hasClass = toggleBox.classList.contains('highlight');
+            toggleStatus.textContent = `Click count: ${toggleCount} | Class present: ${hasClass}`;
+        });
+        
+        // Demo 2: Add and Remove
+        let addCount = 0;
+        const addBtn = document.getElementById('add-btn');
+        const addBox = document.getElementById('add-box');
+        const addStatus = document.getElementById('add-status');
+        const removeBtn = document.getElementById('remove-btn');
+        
+        addBtn.addEventListener('click', () => {
+            addCount++;
+            addBox.classList.add('highlight');
+            const hasClass = addBox.classList.contains('highlight');
+            addStatus.textContent = `Click count: ${addCount} | Class present: ${hasClass}`;
+        });
+        
+        removeBtn.addEventListener('click', () => {
+            addBox.classList.remove('highlight');
+            const hasClass = addBox.classList.contains('highlight');
+            addStatus.textContent = `Click count: ${addCount} | Class present: ${hasClass}`;
+        });
+        
+        // Demo 3: Repeated add() demonstration
+        let repeatedCount = 0;
+        const repeatedBtn = document.getElementById('repeated-add-btn');
+        const repeatedBox = document.getElementById('repeated-box');
+        const repeatedStatus = document.getElementById('repeated-status');
+        
+        repeatedBtn.addEventListener('click', () => {
+            repeatedCount++;
+            repeatedBox.classList.add('highlight');
+            const hasClass = repeatedBox.classList.contains('highlight');
+            
+            let message;
+            if (repeatedCount === 1) {
+                message = "First click - highlight added!";
+            } else {
+                message = `Called add() again, but class was already present. No visible change.`;
+            }
+            
+            repeatedStatus.textContent = `Click count: ${repeatedCount} | Class present: ${hasClass} | Message: ${message}`;
+        });
+    </script>
+</body>
+</html>
