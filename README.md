@@ -225,3 +225,31 @@ changeButton.addEventListener('click', () => {
 Now, when you open `index.html` in the browser and click the button, the title should get a yellow background, and a new message will appear in the container. Click it again, and the highlight will disappear, but another message will be added.
 
 This is the fundamental pattern for web interactivity: **listen for an event, and change the state (the HTML or CSS) in response.**
+
+---
+
+### Common Question: Why toggle() Works But add() Doesn't?
+
+You might wonder: "Why use `toggle()` instead of `add()`?" Here's the key difference:
+
+#### `classList.toggle(className)`
+- **Acts like a light switch** - turns the class on and off
+- First click: adds the class ✅
+- Second click: removes the class ❌
+- Third click: adds it back ✅
+- **Perfect for interactive buttons** where each click should reverse the previous action
+
+#### `classList.add(className)`
+- **Acts like a permanent sticker** - only adds the class
+- First click: adds the class ✅
+- Second click: does nothing (class already present) 
+- Third click: still does nothing
+- **Perfect for one-time styling changes** that should stay applied
+
+**The "Problem":** If you use `add()` on a button that gets clicked multiple times, it appears to "not work" after the first click because the class is already added! There's no visible change on subsequent clicks.
+
+**The Solution:** Use `toggle()` for interactive elements that switch states, and use `add()` only when you want to apply styling once and keep it permanently.
+
+For a detailed explanation and interactive demos, see:
+- `EXPLANATION.md` - Detailed explanation of both methods
+- `demo-toggle-vs-add.html` - Interactive demonstrations you can open in your browser
